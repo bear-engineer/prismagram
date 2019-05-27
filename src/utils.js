@@ -1,6 +1,8 @@
 require('dotenv').config();
 import dotenv from 'dotenv';
 import path from 'path';
+import jwt from 'jsonwebtoken';
+
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 import { adjectives, nouns } from './words';
@@ -28,7 +30,9 @@ export const sendSecretMail = (adress, secret) => {
     from: 'news.younlab@gmail.com',
     to: adress,
     subject: 'Login Secret for Prismagram',
-    html: `Hello! Your Login Secret it ${secret}.<br/>Copy paste on the app to login`,
+    html: `Hello! Your Login Secret it <strong>"${secret}"</strong>.<br/>Copy paste on the app to login`,
   };
   return sendMail(email);
 };
+
+export const generateToken = id => jwt.sign({ id }, process.env.JWT_SECRET);
